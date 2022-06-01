@@ -29,7 +29,7 @@
       </a-form>
 
       <div class="fs-12">
-        <router-link to="/forget">忘记密码</router-link>
+        <router-link to="/forget" @click="Incomplete">忘记密码</router-link>
         <a-divider
           type="vertical"
           style="background-color: rgb(24 144 255)"
@@ -109,11 +109,16 @@ export default {
       });
     };
 
+    const Incomplete = ()=>{
+      message.info("后台接口未完成")
+    }
+
     return {
       formRef,
       formState,
       rules,
       handleFinish,
+      Incomplete
     };
   },
 };

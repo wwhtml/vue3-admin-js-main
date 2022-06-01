@@ -18,9 +18,17 @@
         <a-form-item label="密码" name="password">
           <a-input-password
             v-model:value="formState.password"
-            placeholder="请输入您的用户名"
+            placeholder="请输入您的密码"
             allow-clear
-            autoComplete 
+            autoComplete
+          ></a-input-password>
+        </a-form-item>
+        <a-form-item label="确认密码" name="passwords">
+          <a-input-password
+            v-model:value="formState.passwords"
+            placeholder="请输入您的密码"
+            allow-clear
+            autoComplete
           ></a-input-password>
         </a-form-item>
         <a-form-item label="验证码" name="code">
@@ -68,6 +76,7 @@ export default {
     const formState = reactive({
       username: "",
       password: "",
+      passwords: "",
       code: "",
     });
 
@@ -87,6 +96,19 @@ export default {
         return Promise.reject("请输入密码"); //不存在的情况
       } else if (!checkPass(value)) {
         return Promise.reject("请输入6~20位的，数字+英文"); //密码错误的情况
+      } else {
+        return Promise.resolve("ok");
+      }
+    };
+
+    const checkPasswords = async (_rule, value) => {
+      const pas = formState.password;
+      if (!value) {
+        return Promise.reject("请再次输入密码"); //不存在的情况
+      } else if (!checkPass(value)) {
+        return Promise.reject("请输入6~20位的，数字+英文"); //密码错误的情况
+      } else if (pas && value && pas !== value) {
+        return Promise.reject("两次密码不一致"); //密码错误的情况
       } else {
         return Promise.resolve("ok");
       }
@@ -113,6 +135,12 @@ export default {
       password: [
         {
           validator: checkPassword,
+          trigger: "change",
+        },
+      ],
+      passwords: [
+        {
+          validator: checkPasswords,
           trigger: "change",
         },
       ],
