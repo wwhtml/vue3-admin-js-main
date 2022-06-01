@@ -9,10 +9,19 @@
         @finish="handleFinish"
       >
         <a-form-item label="用户名" name="username">
-          <a-input v-model:value="formState.username"></a-input>
+          <a-input
+            v-model:value="formState.username"
+            placeholder="请输入您的用户名"
+            allow-clear
+          ></a-input>
         </a-form-item>
         <a-form-item label="密码" name="password">
-          <a-input v-model:value="formState.password"></a-input>
+          <a-input-password
+            v-model:value="formState.password"
+            placeholder="请输入您的用户名"
+            allow-clear
+            autoComplete
+          ></a-input-password>
         </a-form-item>
         <a-form-item>
           <a-button type="primary" html-type="submit" block>登录</a-button>
@@ -33,7 +42,10 @@
 
 <script>
 import { reactive, ref } from "vue";
+import { Login } from "../../api/account";
 import { checkPhone, checkPass, code } from "../../utils/verification";
+import { message } from "ant-design-vue";
+import { setToken, getToken } from "../../utils/cookies";
 export default {
   setup() {
     const formState = reactive({
@@ -80,7 +92,22 @@ export default {
     const formRef = ref();
 
     //提交数据
-    const handleFinish = () => {};
+    const handleFinish = () => {
+      const params = {
+        username: formState.username,
+        password: formState.password,
+      };
+      Login(params).then((res) => {
+        const data = res.content;
+        if (data) {
+          setToken({ token: data.token });
+          message.success(res.msg);
+          //将token进行保存
+        } else {
+          message.error(res.msg);
+        }
+      });
+    };
 
     return {
       formRef,

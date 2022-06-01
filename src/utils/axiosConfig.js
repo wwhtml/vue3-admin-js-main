@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import {setToken,getToken} from "./cookies"
 
 const service = axios.create({
   timeout: 2000
@@ -10,6 +10,8 @@ service.interceptors.request.use(
   //这里的信息是交由后端处理的
   function (config) {
     // 在发送请求之前做些什么
+    config.headers["Authorization"] = getToken()
+    console.log(config)
     return config;
   },
   function (error) {

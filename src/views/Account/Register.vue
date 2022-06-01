@@ -9,10 +9,19 @@
         @finish="handleFinish"
       >
         <a-form-item label="用户名" name="username">
-          <a-input v-model:value="formState.username"></a-input>
+          <a-input
+            v-model:value="formState.username"
+            placeholder="请输入您的用户名"
+            allow-clear
+          ></a-input>
         </a-form-item>
         <a-form-item label="密码" name="password">
-          <a-input v-model:value="formState.password"></a-input>
+          <a-input-password
+            v-model:value="formState.password"
+            placeholder="请输入您的用户名"
+            allow-clear
+            autoComplete 
+          ></a-input-password>
         </a-form-item>
         <a-form-item label="验证码" name="code">
           <a-row type="flex" justify="space-between">
@@ -50,6 +59,7 @@
 
 <script>
 import { reactive, ref } from "vue";
+import { useRouter } from "vue-router";
 import { checkPhone, checkPass, code } from "../../utils/verification";
 import { CheckUsername, GetCode, Register } from "../../api/account";
 import { message } from "ant-design-vue";
@@ -181,6 +191,7 @@ export default {
     };
 
     //提交数据
+    const router = useRouter();
     const handleFinish = () => {
       const requestData = {
         username: formState.username,
@@ -189,10 +200,11 @@ export default {
       };
       Register(requestData).then((res) => {
         const { code } = res.content;
-        if(code){
-          message.success("注册成功")
-        }else{
-          message.error(res.msg)
+        if (code) {
+          message.success("注册成功");
+          router.push("/login");
+        } else {
+          message.error(res.msg);
         }
       });
     };
