@@ -42,12 +42,15 @@
 
 <script>
 import { reactive, ref } from "vue";
+import {useRouter} from "vue-router"
 import { Login } from "../../api/account";
 import { checkPhone, checkPass, code } from "../../utils/verification";
 import { message } from "ant-design-vue";
 import { setToken, getToken } from "../../utils/cookies";
 export default {
   setup() {
+      const router = useRouter();
+
     const formState = reactive({
       username: "",
       password: "",
@@ -100,25 +103,26 @@ export default {
       Login(params).then((res) => {
         const data = res.content;
         if (data) {
+          //将token进行保存
           setToken({ token: data.token });
           message.success(res.msg);
-          //将token进行保存
+          router.push("/home");
         } else {
           message.error(res.msg);
         }
       });
     };
 
-    const Incomplete = ()=>{
-      message.info("后台接口未完成")
-    }
+    const Incomplete = () => {
+      message.info("后台接口未完成");
+    };
 
     return {
       formRef,
       formState,
       rules,
       handleFinish,
-      Incomplete
+      Incomplete,
     };
   },
 };
