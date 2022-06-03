@@ -12,7 +12,7 @@ service.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么
     config.headers["Authorization"] = getToken()
-    console.log(config)
+    // console.log(config)
     return config;
   },
   function (error) {
