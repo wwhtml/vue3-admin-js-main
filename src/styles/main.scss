@@ -1,17 +1,65 @@
 @import "normalize.scss";
 @import "icon.scss";
 
-
-.color-white{
-    color:white
+//下面一部分最好注入到每一个组件，否则容易出现权重问题。此项目好多地方根本没有使用这个。以后注意！！！！
+// color
+.color-white {
+  color: white;
+}
+.color-green {
+  color: green;
 }
 
-.fs-12{
-    font-size: 12px;
+// font-size
+.fs-12 {
+  font-size: 12px;
 }
-.fs-14{
-    font-size: 14px;
+.fs-14 {
+  font-size: 14px;
 }
-.fs-16{
-    font-size: 16px;
+.fs-16 {
+  font-size: 16px;
+}
+
+// text-align
+.text-center {
+  text-align: center;
+}
+
+// float
+.float-right {
+  float: right;
+}
+
+// margin
+.ml-10 {
+  margin-left: 10px;
+}
+.mr-10 {
+  margin-right: 10px;
+}
+.mb-20 {
+  margin-bottom: 20px;
+}
+.mb-24 {
+  margin-bottom: 24px;
+}
+.mb-30 {
+  margin-bottom: 30px;
+}
+.mb-40 {
+  margin-bottom: 40px;
+}
+.mb-50 {
+  margin-bottom: 50px;
+}
+
+// padding
+.pt-30 {
+  padding-top: 30px;
+}
+
+// width
+.w-200 {
+  width: 200px;
 }

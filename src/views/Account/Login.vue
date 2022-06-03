@@ -106,7 +106,7 @@ export default {
         if (data) {
           //将token进行保存
           setToken({ token: data.token });
-          message.success(res.msg);
+          message.success("登陆成功");
           router.push("/home");
         } else {
           message.error(res.msg);

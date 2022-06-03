@@ -61,7 +61,7 @@
       </a-form>
     </a-col>
     <a-col flex="100px">
-      <a-button type="primary" block @click="showModal">新增用111户</a-button>
+      <a-button type="primary" block @click="showModal">新增用户</a-button>
     </a-col>
     <a-col>
       <a-button type="danger" style="margin-left: 8px"> 批量删除 </a-button>
