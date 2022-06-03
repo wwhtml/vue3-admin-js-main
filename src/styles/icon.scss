@@ -1,0 +1,27 @@
+i[class^=icon] {
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+}
+.svg-class {
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+}
+/* svg 图标尺寸 */
+.aside-svg {
+    margin-bottom: -4px;
+    margin-right: 3px;
+    font-size: 20px;
+}
+.header-menu-svg {
+    margin: 0 8px -2px 0;
+    color: #ccc;
+    font-size: 20px;
+    vertical-align: top;
+}
+/* png图标尺寸 */
+.icon-size-21 { width: 21px; height: 21px; }
+.icon-size-30 { width: 30px; height: 30px; }
+/* 偏移*/
+.mb--5 { margin-bottom: -5px; }
