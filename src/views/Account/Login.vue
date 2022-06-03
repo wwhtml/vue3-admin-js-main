@@ -42,15 +42,16 @@
 
 <script>
 import { reactive, ref } from "vue";
-import {useRouter} from "vue-router"
+import { useRouter } from "vue-router";
 import { Login } from "../../api/account";
 import { checkPhone, checkPass, code } from "../../utils/verification";
 import { message } from "ant-design-vue";
 import { setToken, getToken } from "../../utils/cookies";
+import md5 from "js-md5";
+
 export default {
   setup() {
-      const router = useRouter();
-
+    const router = useRouter();
     const formState = reactive({
       username: "",
       password: "",
@@ -98,7 +99,7 @@ export default {
     const handleFinish = () => {
       const params = {
         username: formState.username,
-        password: formState.password,
+        password: md5(formState.password),
       };
       Login(params).then((res) => {
         const data = res.content;

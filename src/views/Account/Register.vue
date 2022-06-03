@@ -70,6 +70,8 @@ import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { checkPhone, checkPass, code } from "../../utils/verification";
 import { CheckUsername, GetCode, Register } from "../../api/account";
+//js-mad5
+import md5 from "js-md5";
 import { message } from "ant-design-vue";
 export default {
   setup() {
@@ -223,7 +225,7 @@ export default {
     const handleFinish = () => {
       const requestData = {
         username: formState.username,
-        password: formState.password,
+        password:  md5(formState.password),
         code: formState.code,
       };
       Register(requestData).then((res) => {
