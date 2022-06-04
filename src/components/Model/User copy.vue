@@ -1,6 +1,16 @@
 <template>
-  <a-modal v-model:visible="visible" :title="mumberId ? '用户编辑' : '用户新增'" @cancel="handleCancel" @ok="handleOk">
-    <a-form ref="formRef" :model="formState" :label-col="labelCol" :wrapper-col="wrapperCol">
+  <a-modal
+    v-model:visible="visible"
+    :title="member_id ? '编辑用户' : '新增用户'"
+    @cancel="handleCancel"
+    @ok="handleOk"
+  >
+    <a-form
+      ref="formRef"
+      :model="formState"
+      :label-col="labelCol"
+      :wrapper-col="wrapperCol"
+    >
       <a-form-item label="手机号" name="phone">
         <a-input v-model:value="formState.phone" />
       </a-form-item>
@@ -27,42 +37,36 @@
 </template>
 
 <script>
-import { ref, reactive, watch } from "vue"
-import { UserCreate, UserInfo, UserUpdate } from "../../api/user"
+import { reactive, ref, watch, toRef } from "vue";
+import { UserCreate, UserInfo } from "../../api/user";
+import { message, Modal } from "ant-design-vue";
+// 加密
 import md5 from "js-md5";
-import { message } from "ant-design-vue";
 export default {
   props: {
     visible: {
       type: Boolean,
-      defalut: false
+      default: "",
     },
-    mumberId: {
-      type: [String, Number],
-      default: ""
-    }
+    member_id: {
+      type: [Number, String],
+      default: "",
+    },
   },
-  emits: ['update:visible', 'update:mumberId', 'loadData'],
+  emits: ["update:visible", "update:member_id", "loadData"],
+
   setup(props, context) {
-    const handleOk = (e) => {
-
-      props.mumberId ? updateUserInfo() : createUser();
-      handleCancel()
-    };
-    const handleCancel = () => {
-      context.emit("update:visible", false)
-      context.emit("update:mumberId", '')
-      formRef.value.resetFields();
-    }
-
-    //用户添加
+    console.log(props);
+    /****************************************************
+     * 用户新增
+     */
     const formRef = ref(null);
     const formState = reactive({
       username: "",
       truename: "",
       phone: "", //必填
       password: "", //加密密码
-      card_id: "",
+      care_id: "",
       role: "user", //必填
       status: false, //必填（status：true or false;所以这里直接写了true）
     });
@@ -78,6 +82,7 @@ export default {
 
     const createUser = () => {
       const userInfos = Object.assign({}, formState);
+
       userInfos.password = md5(userInfos.password);
       UserCreate(userInfos)
         .then((res) => {
@@ -94,49 +99,39 @@ export default {
           message.error(err);
         });
     };
+    const handleOk = (e) => {
+      createUser();
+    };
+    const handleCancel = (e) => {
+      context.emit("update:visible", false);
+      // context.emit("update:member_id", "");
+    };
 
-    //编辑
+    const visible = ref(false);
+    watch(
+      () => props.visible,
+      (newValue, oldValue) => {
+        visible.value = newValue;
+        // 用户详情请求
+        props.member_id && newValue && getUserInfo();
+      }
+    );
+
     const getUserInfo = () => {
-      UserInfo({ member_id: props.mumberId }).then((res) => {
-        console.log(res)
-        const { username, truename, phone, password, card_id, role, status } =
+      UserInfo({ member_id: props.member_id }).then((res) => {
+        // requestDataFormat(response.content, formState, ["status", "type"]);
+        console.log(res);
+        const { username, truename, phone, password, care_id, role, status } =
           res.content;
         formState.username = username;
         formState.truename = truename;
         formState.phone = phone;
         formState.password = password;
-        formState.card_id = card_id;
+        formState.care_id = care_id;
         formState.role = role;
-        formState.status = status === 0 ? false : true;
-
-      })
-    }
-    watch(
-      () => props.mumberId,
-      () => {
-        // 用户详情请求
-        props.mumberId && getUserInfo();
-      }
-    );
-    const updateUserInfo = () => {
-      // 密码加密
-      const request_data = Object.assign({}, formState);
-      if (request_data.password) {
-        request_data.password = md5(request_data.password);
-      } else {
-        delete request_data.password
-      }
-      UserUpdate({ ...request_data, member_id: props.mumberId }).then(res => {
-        // 用户新增成功
-        message.success(res.msg);
-        context.emit("loadData");
-      }).catch(error => {
-        message.success(error);
-      })
-    }
-
-
-
+        formState.status = status;
+      });
+    };
 
     return {
       handleCancel,
@@ -154,16 +149,10 @@ export default {
       handleOk,
       //编辑
       getUserInfo,
-      updateUserInfo
-    }
-
-
-  }
-
-
-}
+      visible,
+    };
+  },
+};
 </script>
 
-<style scoped lang="">
-
-</style>
+<style scoped lang=""></style>

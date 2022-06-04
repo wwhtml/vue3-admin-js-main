@@ -83,7 +83,7 @@
       </template>
       <template v-if="column.dataIndex === 'operation'">
         <a-button type="primary">详情</a-button>
-        <a-button>编辑</a-button>
+        <a-button @click="handleEdit(record)">编辑</a-button>
 
         <a-button type="dashed" @click="removeUserConfirm(record)"
           >删除</a-button
@@ -92,7 +92,7 @@
     </template>
   </a-table>
 
-  <UserModel v-model:visible="userModelVisible" @loadData = "getUserList" ></UserModel>
+  <UserModel v-model:visible="userModelVisible" v-model:mumberId="mumberId" @loadData="getUserList"></UserModel>
 </template>
 
 <script>
@@ -100,13 +100,13 @@ import { reactive, ref, computed } from "vue";
 import { UserList, UserCreate, UserRemove, UserStatus } from "../../api/user";
 import { onBeforeMount, onMounted } from "@vue/runtime-core";
 import { message, Modal } from "ant-design-vue";
-import UserModel from "@/components/Model/User"
+import UserModel from "@/components/Model/User";
 
 export default {
-  components:{
-    UserModel
+  components: {
+    UserModel,
   },
-  setup(props,context) {
+  setup(props, context) {
     /*******************************************************
      * 搜索
      */
@@ -294,13 +294,16 @@ export default {
     /**********************************************************
      * 用户添加
      */
-    const userModelVisible = ref(false)
-    const showUserModel = ()=>{
-      console.log(1)
-      userModelVisible.value = true
-    }
+    const userModelVisible = ref(false);
+    const showUserModel = () => {
+      userModelVisible.value = true;
+    };
 
-    const createUser = () => {};
+    const mumberId = ref(null);
+    const handleEdit = (record) => {
+      mumberId.value = record.member_id;
+      showUserModel();
+    };
 
     return {
       formRef,
@@ -318,7 +321,11 @@ export default {
       removeUserConfirm,
       //用户添加
       userModelVisible,
-      showUserModel
+      showUserModel,
+
+      //编辑
+      handleEdit,
+      mumberId,
     };
   },
 };

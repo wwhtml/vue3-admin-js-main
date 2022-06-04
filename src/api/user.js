@@ -41,6 +41,21 @@ export function UserStatus(data) {
     });
 }
 
+export function UserInfo(data) {
+  return service({
+    url: "/v1/user/info ",
+    method: "post",
+    data,
+  });
+}
+
+export function UserUpdate(data) {
+  return service({
+    url: "/v1/user/update  ",
+    method: "post",
+    data,
+  });
+}
 
 
 
