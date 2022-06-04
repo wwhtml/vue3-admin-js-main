@@ -37,10 +37,14 @@ const i18n = createI18n({
 import SvgIcon from "@/components/Svgicon";
 import "@/components/Svgicon/svg.js"; // svg文件解析
 
+// 全局方法
+import GlobalFun from "@/utils/global";
+
 createApp(App)
   .component("svg-icon", SvgIcon)
   .use(store)
   .use(router)
   .use(Antd)
   .use(i18n)
+  .use(GlobalFun)
   .mount("#app");

@@ -3,11 +3,7 @@
     <a-col flex="auto">
       <a-form layout="inline" ref="formRef" :model="formState">
         <a-form-item label="角色类型" name="role">
-          <a-select
-            style="width: 120px"
-            ref="select"
-            v-model:value="formState.role"
-          >
+          <a-select style="width: 120px" ref="select" v-model:value="formState.role">
             <a-select-option value="">全部</a-select-option>
             <a-select-option value="jack">Jack</a-select-option>
             <a-select-option value="lucy">Lucy</a-select-option>
@@ -16,11 +12,7 @@
           </a-select>
         </a-form-item>
         <a-form-item label="状态" name="status">
-          <a-select
-            style="width: 120px"
-            ref="select"
-            v-model:value="formState.status"
-          >
+          <a-select style="width: 120px" ref="select" v-model:value="formState.status">
             <!-- ant-design-vue规定value值不能是Boolean 所以用1和0代替-->
             <a-select-option value="">全部</a-select-option>
             <a-select-option :value="1">启用</a-select-option>
@@ -28,11 +20,7 @@
           </a-select>
         </a-form-item>
         <a-form-item label="关键字" name="key" style="margin-right: 0">
-          <a-select
-            style="width: 120px"
-            ref="select"
-            v-model:value="formState.key"
-          >
+          <a-select style="width: 120px" ref="select" v-model:value="formState.key">
             <a-select-option value="">请选择</a-select-option>
             <a-select-option value="username">用户名</a-select-option>
             <a-select-option value="truename">真实姓名</a-select-option>
@@ -40,18 +28,12 @@
           </a-select>
         </a-form-item>
         <a-form-item name="keywords">
-          <a-input
-            v-model:value="formState.keywords"
-            placeholder="input search text"
-            style="width: 150px"
-          />
+          <a-input v-model:value="formState.keywords" placeholder="input search text" style="width: 150px" />
         </a-form-item>
 
         <a-form-item>
           <a-button type="primary" @click="searchHandler()">搜索</a-button>
-          <a-button type="primary" @click="searchHandler('reset')"
-            >重置</a-button
-          >
+          <a-button type="primary" @click="searchHandler('reset')">重置</a-button>
           <a-button type="primary">导出</a-button>
         </a-form-item>
       </a-form>
@@ -65,29 +47,18 @@
   </a-row>
 
   <!-- 表格 渲染数据列表 -->
-  <a-table
-    :columns="tableConfig.columns"
-    :loading="tableConfig.loading"
-    :data-source="tableConfig.data"
-    bordered
-    :pagination="pagination"
-    @change="handlePagination"
-  >
+  <a-table :columns="tableConfig.columns" :loading="tableConfig.loading" :data-source="tableConfig.data" bordered
+    :pagination="pagination" @change="handlePagination">
     <template #bodyCell="{ column, record, text }">
       <template v-if="column.dataIndex === 'status'">
-        <a-switch
-          :loading="record.statusLoading"
-          :checked="text == 0 ? false : true"
-          @click="changeUserStatus(record)"
-        />
+        <a-switch :loading="record.statusLoading" :checked="text == 0 ? false : true"
+          @click="changeUserStatus(record)" />
       </template>
       <template v-if="column.dataIndex === 'operation'">
         <a-button type="primary">详情</a-button>
         <a-button @click="handleEdit(record)">编辑</a-button>
 
-        <a-button type="dashed" @click="removeUserConfirm(record)"
-          >删除</a-button
-        >
+        <a-button type="dashed" @click="removeUserConfirm(record)">删除</a-button>
       </template>
     </template>
   </a-table>
@@ -96,7 +67,7 @@
 </template>
 
 <script>
-import { reactive, ref, computed } from "vue";
+import { reactive, ref, computed, getCurrentInstance } from "vue";
 import { UserList, UserCreate, UserRemove, UserStatus } from "../../api/user";
 import { onBeforeMount, onMounted } from "@vue/runtime-core";
 import { message, Modal } from "ant-design-vue";
@@ -107,6 +78,11 @@ export default {
     UserModel,
   },
   setup(props, context) {
+    const { proxy } = getCurrentInstance();
+
+
+    console.log(getCurrentInstance())
+    console.log(proxy)
     /*******************************************************
      * 搜索
      */
@@ -278,16 +254,20 @@ export default {
       });
     };
     const removeUserConfirm = (record) => {
-      Modal.confirm({
-        title: "温馨提示",
-        content: "确认删除此信息，删除后无法恢复？",
-        okText: "确认",
-        okType: "danger",
-        cancelText: "取消",
-        onOk() {
-          removeUser(record);
-        },
-        onCancel() {},
+      // Modal.confirm({
+      //   title: "温馨提示",
+      //   content: "确认删除此信息，删除后无法恢复？",
+      //   okText: "确认",
+      //   okType: "danger",
+      //   cancelText: "取消",
+      //   onOk() {
+      //     removeUser(record);
+      //   },
+      //   onCancel() {},
+      // });
+
+      proxy.deleteConfirm({
+        ok_fun: () => removeUser(record)
       });
     };
 
@@ -332,9 +312,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-button.ant-btn + .ant-btn {
+button.ant-btn+.ant-btn {
   margin-left: 8px;
 }
+
 .ant-switch-checked {
   background-color: #1cbb1cfa;
 }

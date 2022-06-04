@@ -5,7 +5,7 @@ const requireAll = (requireContext) => {
   return requireContext.keys().map(requireContext);
 };
 requireAll(req);
-console.log(requireAll(req));
+// console.log(requireAll(req));
 
 
 //相当于下面
