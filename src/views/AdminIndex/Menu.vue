@@ -159,6 +159,7 @@ import {
   watch,
   watchEffect,
   createVNode,
+  onBeforeMount,
 } from "vue";
 import {
   LoadingOutlined,
@@ -169,7 +170,7 @@ import { Modal, message } from "ant-design-vue";
 
 export default {
   components: { LoadingOutlined, PlusOutlined, ExclamationCircleOutlined },
-  setup() {
+  setup(props,context) {
     //备用的测试数据
     const treeData = [
       {
@@ -256,7 +257,10 @@ export default {
         MenuListConfig.list = res.content;
       });
     };
-    getMenuList();
+    onBeforeMount(() => {
+      getMenuList();
+      console.log(context)
+    });
 
     /***************************
      * 添加菜单
