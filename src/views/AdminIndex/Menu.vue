@@ -40,7 +40,7 @@
         </template>
       </a-tree>
     </a-col>
-    <a-col :span="16">
+    <a-col :span="16" style="margin-bottom:80px">
       <div class="header-wrap">
         <h4>菜单信息</h4>
       </div>
@@ -66,13 +66,13 @@
         <a-form-item label="菜单名称（英文）">
           <a-input v-model:value="menuInfo.menu_name_en"></a-input>
         </a-form-item>
-        <a-form-item label="操作权限（增、删、改、查）">
+        <!-- <a-form-item label="操作权限（增、删、改、查）">
           <a-checkbox-group
             v-model:value="menuInfo.elem"
             name="checkboxgroup"
             :options="options"
           />
-        </a-form-item>
+        </a-form-item> -->
         <a-form-item label="path路径">
           <a-input v-model:value="menuInfo.router_path"></a-input>
         </a-form-item>
@@ -131,6 +131,37 @@
         <a-form-item label="页面重定向路径">
           <a-input v-model:value="menuInfo.redirect"></a-input>
         </a-form-item>
+
+        <a-form-item label="元素权限">
+          <a-row :gutter="20" v-if="menuInfo.elem&&menuInfo.elem.length">
+            <a-col :span="8" class="text-center">元素</a-col>
+            <a-col :span="8" class="text-center">编码</a-col>
+            <a-col :span="8" class="text-center">操作</a-col>
+          </a-row>
+          <a-row
+            :gutter="20"
+            v-for="(item, index) in menuInfo.elem"
+            :key="item.value"
+          >
+            <a-col :span="8">
+              <a-input v-model:value="item.label"></a-input>
+            </a-col>
+            <a-col :span="8">
+              <a-input v-model:value="item.value"></a-input>
+            </a-col>
+            <a-col :span="8">
+              <a-button style="width: 100%" @click="handleDeleteElem(index)"
+                >删除</a-button
+              >
+            </a-col>
+          </a-row>
+          <a-row>
+            <a-button type="dashed" style="width: 100%" @click="handleAddElem"
+              >添加</a-button
+            >
+          </a-row>
+        </a-form-item>
+
         <a-form-item :wrapper-col="{ span: 14, offset: 8 }">
           <a-button type="primary" @click="createMenu">Create</a-button>
           <a-button style="margin-left: 10px">Cancel</a-button>
@@ -170,7 +201,7 @@ import { Modal, message } from "ant-design-vue";
 
 export default {
   components: { LoadingOutlined, PlusOutlined, ExclamationCircleOutlined },
-  setup(props,context) {
+  setup(props, context) {
     //备用的测试数据
     const treeData = [
       {
@@ -259,7 +290,7 @@ export default {
     };
     onBeforeMount(() => {
       getMenuList();
-      console.log(context)
+      console.log(context);
     });
 
     /***************************
@@ -269,7 +300,8 @@ export default {
       parent_id: "0",
       menu_name_cn: "",
       menu_name_en: "",
-      elem: ["info:delete", "info:add", "info:edit"],
+      elem: [],
+      elemJson: '{"label": "", "value": ""}',
       router_name: "",
       router_path: "",
       component: "",
@@ -393,6 +425,9 @@ export default {
             menuInfo[key] = request_data[key];
           }
         }
+        if(!menuInfo.elem){
+          menuInfo.elem = []
+        }
       });
     };
 
@@ -405,6 +440,12 @@ export default {
       );
     };
 
+    const handleAddElem = () => {
+      menuInfo.elem.push(JSON.parse(menuInfo.elemJson));
+    };
+    const handleDeleteElem = (index) => {
+      menuInfo.elem.splice(index, 1);
+    };
     return {
       treeData,
       MenuListConfig,
@@ -424,6 +465,8 @@ export default {
       //编辑菜单
       editMenuInfo,
       updateMenu,
+      handleAddElem,
+      handleDeleteElem,
     };
   },
 };
@@ -457,4 +500,12 @@ export default {
   .ant-tree-node-content-wrapper {
   padding: 0;
 }
+
+::v-deep .ant-row {
+  margin-top: 6px;
+  margin-bottom: 10px;
+  padding-right: 10px;
+}
+
+
 </style>
