@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { h } from "vue";
 const routes = [
-  
+
 
   {
     path: "/",
@@ -10,7 +10,7 @@ const routes = [
   },
   {
     path: "/login",
-    name: "login",
+    name: "Login",
     hidInMenu: true,
     meta: {
       title: "登录",
@@ -20,7 +20,7 @@ const routes = [
   },
   {
     path: "/register",
-    name: "register",
+    name: "Register",
     hidInMenu: true,
     meta: {
       title: "注册",
@@ -30,7 +30,7 @@ const routes = [
   },
   {
     path: "/forget",
-    name: "forget",
+    name: "Forget",
     hidInMenu: true,
     meta: {
       title: "忘记密码",

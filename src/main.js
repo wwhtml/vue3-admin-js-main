@@ -10,6 +10,9 @@ import "@/styles/main.scss";
 import Antd from "ant-design-vue";
 import "ant-design-vue/dist/antd.css";
 
+// router 拦截
+import "./router/permit";
+
 import { createI18n } from "vue-i18n";
 
 const i18n = createI18n({

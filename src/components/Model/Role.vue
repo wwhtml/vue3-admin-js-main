@@ -1,16 +1,7 @@
 <template>
-  <a-modal
-    v-model:visible="visible"
-    @ok="handleOk"
-    @cancel="handleCancel"
-    :title="roleId ? '角色编辑' : '角色新增'"
-  >
-    <a-form
-      ref="formRef"
-      :model="roleConfig.formState"
-      :label-col="roleConfig.labelCol"
-      :wrapper-col="roleConfig.wrapperCol"
-    >
+  <a-modal v-model:visible="visible" @ok="handleOk" @cancel="handleCancel" :title="roleId ? '角色编辑' : '角色新增'">
+    <a-form ref="formRef" :model="roleConfig.formState" :label-col="roleConfig.labelCol"
+      :wrapper-col="roleConfig.wrapperCol">
       <a-form-item label="角色名称" name="role_name">
         <a-input v-model:value="roleConfig.formState.role_name"></a-input>
       </a-form-item>
@@ -18,30 +9,21 @@
         <a-input v-model:value="roleConfig.formState.role_value"></a-input>
       </a-form-item>
       <a-form-item label="是否超管" name="has_admin">
-        <a-radio-group
-          v-model:value="roleConfig.formState.has_admin"
-          :options="aoptions"
-        ></a-radio-group>
+        <a-radio-group v-model:value="roleConfig.formState.has_admin" :options="aoptions"></a-radio-group>
       </a-form-item>
       <a-form-item label="是否启用" name="role_disabled">
-        <a-radio-group
-          v-model:value="roleConfig.formState.role_disabled"
-          :options="options"
-        />
+        <a-radio-group v-model:value="roleConfig.formState.role_disabled" :options="options" />
       </a-form-item>
 
       <a-form-item label="权限设置">
-        <a-tree
-          v-if="roleConfig.menuListTree.length"
-          checkable
-          :tree-data="roleConfig.menuListTree"
-          :fieldNames="{
-            title: 'menu_name_cn',
-            key: 'menu_id',
-          }"
-          v-model:checkedKeys="roleConfig.checkedKeys"
-          @check="handleTree"
-        >
+        <a-tree v-if="roleConfig.menuListTree.length" checkable :tree-data="roleConfig.menuListTree" :fieldNames="{
+          title: 'menu_name_cn',
+          key: 'menu_id',
+        }" v-model:checkedKeys="roleConfig.checkedKeys" @check="handleTree">
+          <template #title="{ menu_name_cn, menu_id }">
+            <div>{{ menu_name_cn }} - {{ menu_id }}</div>
+
+          </template>
         </a-tree>
         <!-- default-expand-all 如果不先判断length，会无效 -->
       </a-form-item>
@@ -328,4 +310,5 @@ export default {
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+</style>
