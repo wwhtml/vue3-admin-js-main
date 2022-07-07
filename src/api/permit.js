@@ -6,7 +6,7 @@ service.defaults.baseURL =
     : process.env.VUE_APP_ROLE_FLAG;
 
 //权限接口
-export function Permission(data = {}) {
+export function getPermission(data = {}) {
   return service({
     url: "/v1/permission ",
     method: "post",

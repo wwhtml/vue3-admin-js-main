@@ -1,4 +1,5 @@
 import Router from "./index";
+import Store from "@/store"
 // cookies
 import { getToken } from "@/utils/cookies";
 const whiteRouter = ['Login', 'Register', 'Forget']
@@ -15,7 +16,23 @@ Router.beforeEach((to, form, next) => {
    * 解耦：尽量把不同的业务逻辑分离出来
    */
   if (getToken()) {
-    next();
+    if (Store.state.permit.all_router.length == 0) {
+      //第一个参数：是调用的action函数名，第二个参数是实际参数
+      Store.dispatch("permit/actionGetPermission").then(() => {
+        const all_router = Store.state.permit.all_router;
+        Router.options.routes = all_router;
+
+        //更新动态路由
+        const async_router = Store.state.permit.async_router;
+        async_router.forEach((item) => {
+          Router.addRoute(item)
+        })
+        //next() 动态路由更新完成之后执行
+        next({ ...to, replace: true });
+      })
+    } else {
+      next()
+    }
   } else {
     if (whiteRouter.includes(to.name)) {
       next();  // 确认进入，不发生路由拦截的动作

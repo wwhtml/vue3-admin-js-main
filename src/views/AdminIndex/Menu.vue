@@ -5,36 +5,16 @@
         <h4>菜单列表</h4>
         <a-button @click="handleChildMenu('0')">添加一级菜单</a-button>
       </div>
-      <a-tree
-        v-if="MenuListConfig.list.length"
-        default-expand-all
-        blockNode
-        :tree-data="MenuListConfig.list"
-      >
+      <a-tree v-if="MenuListConfig.list.length" default-expand-all blockNode :tree-data="MenuListConfig.list">
         <template #title="{ menu_name_cn, menu_id }">
           <div class="menu-item">
             <span>{{ menu_name_cn }}</span>
             <div class="button-group">
-              <a-button
-                class="button-mini"
-                size="small"
-                type="primary"
-                @click="handleChildMenu(menu_id)"
-              >
+              <a-button class="button-mini" size="small" type="primary" @click="handleChildMenu(menu_id)">
                 添加子菜单
               </a-button>
-              <a-button
-                class="button-mini"
-                size="small"
-                @click="editMenuInfo({ menu_id })"
-                >编辑</a-button
-              >
-              <a-button
-                class="button-mini"
-                size="small"
-                @click="showDeleteConfirm({ menu_id })"
-                >删除</a-button
-              >
+              <a-button class="button-mini" size="small" @click="editMenuInfo({ menu_id })">编辑</a-button>
+              <a-button class="button-mini" size="small" @click="showDeleteConfirm({ menu_id })">删除</a-button>
             </div>
           </div>
         </template>
@@ -44,21 +24,15 @@
       <div class="header-wrap">
         <h4>菜单信息</h4>
       </div>
-      <a-form
-        :label-col="{
-          style: {
-            width: '200px',
-          },
-        }"
-        :wrapper-col="{
-          span: 14,
-        }"
-      >
+      <a-form :label-col="{
+        style: {
+          width: '200px',
+        },
+      }" :wrapper-col="{
+  span: 14,
+}">
         <a-form-item label="父级菜单ID">
-          <a-input
-            v-model:value="menuInfo.parent_id"
-            :disabled="true"
-          ></a-input>
+          <a-input v-model:value="menuInfo.parent_id" :disabled="true"></a-input>
         </a-form-item>
         <a-form-item label="菜单名称（中文）">
           <a-input v-model:value="menuInfo.menu_name_cn"></a-input>
@@ -83,22 +57,10 @@
           <a-input v-model:value="menuInfo.component"></a-input>
         </a-form-item>
         <a-form-item label="图标">
-          <a-upload
-            v-model:file-list="fileList"
-            name="avatar"
-            list-type="picture-card"
-            class="avatar-uploader"
-            :show-upload-list="false"
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-            :before-upload="beforeUpload"
-            @change="handleChange"
-          >
-            <img
-              v-if="imageUrl"
-              style="width: 100%"
-              :src="imageUrl"
-              alt="avatar"
-            />
+          <a-upload v-model:file-list="fileList" name="avatar" list-type="picture-card" class="avatar-uploader"
+            :show-upload-list="false" action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            :before-upload="beforeUpload" @change="handleChange">
+            <img v-if="imageUrl" style="width: 100%" :src="imageUrl" alt="avatar" />
             <div v-else>
               <loading-outlined v-if="loading"></loading-outlined>
               <plus-outlined v-else></plus-outlined>
@@ -133,16 +95,12 @@
         </a-form-item>
 
         <a-form-item label="元素权限">
-          <a-row :gutter="20" v-if="menuInfo.elem&&menuInfo.elem.length">
+          <a-row :gutter="20" v-if="menuInfo.elem && menuInfo.elem.length">
             <a-col :span="8" class="text-center">元素</a-col>
             <a-col :span="8" class="text-center">编码</a-col>
             <a-col :span="8" class="text-center">操作</a-col>
           </a-row>
-          <a-row
-            :gutter="20"
-            v-for="(item, index) in menuInfo.elem"
-            :key="item.value"
-          >
+          <a-row :gutter="20" v-for="(item, index) in menuInfo.elem" :key="item.value">
             <a-col :span="8">
               <a-input v-model:value="item.label"></a-input>
             </a-col>
@@ -150,24 +108,18 @@
               <a-input v-model:value="item.value"></a-input>
             </a-col>
             <a-col :span="8">
-              <a-button style="width: 100%" @click="handleDeleteElem(index)"
-                >删除</a-button
-              >
+              <a-button style="width: 100%" @click="handleDeleteElem(index)">删除</a-button>
             </a-col>
           </a-row>
           <a-row>
-            <a-button type="dashed" style="width: 100%" @click="handleAddElem"
-              >添加</a-button
-            >
+            <a-button type="dashed" style="width: 100%" @click="handleAddElem">添加</a-button>
           </a-row>
         </a-form-item>
 
         <a-form-item :wrapper-col="{ span: 14, offset: 8 }">
           <a-button type="primary" @click="createMenu">Create</a-button>
           <a-button style="margin-left: 10px">Cancel</a-button>
-          <a-button style="margin-left: 10px" @click="updateMenu"
-            >确认修改</a-button
-          >
+          <a-button style="margin-left: 10px" @click="updateMenu">确认修改</a-button>
         </a-form-item>
       </a-form>
     </a-col>
@@ -284,13 +236,12 @@ export default {
     //获取菜单列表
     const getMenuList = () => {
       MenuList().then((res) => {
-        console.log(res);
+        // console.log(res);
         MenuListConfig.list = res.content;
       });
     };
     onBeforeMount(() => {
       getMenuList();
-      console.log(context);
     });
 
     /***************************
@@ -425,7 +376,7 @@ export default {
             menuInfo[key] = request_data[key];
           }
         }
-        if(!menuInfo.elem){
+        if (!menuInfo.elem) {
           menuInfo.elem = []
         }
       });
@@ -480,6 +431,7 @@ export default {
   justify-content: space-between;
   line-height: 32px;
   margin-bottom: 24px;
+
   h4 {
     margin: 0;
   }
@@ -489,15 +441,13 @@ export default {
   display: flex;
   justify-content: space-between;
   margin-left: 5px;
+
   .button-mini {
     margin-left: 5px;
   }
 }
 
-::v-deep
-  .ant-tree.ant-tree-block-node
-  .ant-tree-list-holder-inner
-  .ant-tree-node-content-wrapper {
+::v-deep .ant-tree.ant-tree-block-node .ant-tree-list-holder-inner .ant-tree-node-content-wrapper {
   padding: 0;
 }
 
@@ -506,6 +456,4 @@ export default {
   margin-bottom: 10px;
   padding-right: 10px;
 }
-
-
 </style>

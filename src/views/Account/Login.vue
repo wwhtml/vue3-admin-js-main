@@ -1,27 +1,13 @@
 <template>
   <div class="account">
     <div class="form-wrap">
-      <a-form
-        ref="formRef"
-        layout="vertical"
-        :model="formState"
-        :rules="rules"
-        @finish="handleFinish"
-      >
+      <a-form ref="formRef" layout="vertical" :model="formState" :rules="rules" @finish="handleFinish">
         <a-form-item label="用户名" name="username">
-          <a-input
-            v-model:value="formState.username"
-            placeholder="请输入您的用户名"
-            allow-clear
-          ></a-input>
+          <a-input v-model:value="formState.username" placeholder="请输入您的用户名" allow-clear></a-input>
         </a-form-item>
         <a-form-item label="密码" name="password">
-          <a-input-password
-            v-model:value="formState.password"
-            placeholder="请输入您的用户名"
-            allow-clear
-            autoComplete
-          ></a-input-password>
+          <a-input-password v-model:value="formState.password" placeholder="请输入您的用户名" allow-clear autoComplete>
+          </a-input-password>
         </a-form-item>
         <a-form-item>
           <a-button type="primary" html-type="submit" block>登录</a-button>
@@ -30,10 +16,7 @@
 
       <div class="fs-12">
         <router-link to="/forget" @click="Incomplete">忘记密码</router-link>
-        <a-divider
-          type="vertical"
-          style="background-color: rgb(24 144 255)"
-        ></a-divider>
+        <a-divider type="vertical" style="background-color: rgb(24 144 255)"></a-divider>
         <router-link to="/register">注册</router-link>
       </div>
     </div>
@@ -53,7 +36,7 @@ export default {
   setup() {
     const router = useRouter();
     const formState = reactive({
-      username: "",
+      username: "13301360000",
       password: "",
     });
 
@@ -137,11 +120,13 @@ export default {
   display: flex;
   justify-content: center;
 }
+
 .form-wrap {
   width: 300px;
   margin: auto;
 }
-::v-deep .ant-form-item-label > label {
+
+::v-deep .ant-form-item-label>label {
   color: white;
 }
 </style>

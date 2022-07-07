@@ -81,8 +81,8 @@ export default {
     const { proxy } = getCurrentInstance();
 
 
-    console.log(getCurrentInstance())
-    console.log(proxy)
+    // console.log(getCurrentInstance())
+    // console.log(proxy)
     /*******************************************************
      * 搜索
      */

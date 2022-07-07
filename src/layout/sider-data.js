@@ -13,7 +13,7 @@ export const list = [
     path: "/home",
     name: "Home",
     meta: {
-      title: "首页",
+      title: "首页1",
       icon: "home",
     },
   },
