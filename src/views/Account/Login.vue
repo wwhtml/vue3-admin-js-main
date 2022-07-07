@@ -88,9 +88,14 @@ export default {
         const data = res.content;
         if (data) {
           //将token进行保存
+          /**
+           * 1、有可能储存的变量名称不同
+           * 2、有可能要更新的变量名不同
+           * 3、考虑两面性，正常或者不正常
+           */
           setToken({ token: data.token });
           message.success("登陆成功");
-          router.push("/home");
+          router.push("/adminIndex");
         } else {
           message.error(res.msg);
         }

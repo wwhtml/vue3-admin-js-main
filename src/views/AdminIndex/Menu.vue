@@ -10,7 +10,7 @@
           <div class="menu-item">
             <span>{{ menu_name_cn }}</span>
             <div class="button-group">
-              <a-button class="button-mini" size="small" type="primary" @click="handleChildMenu(menu_id)">
+              <a-button class="button-mini" size="small" type="primary" @click="handleChildMenu(menu_id, menu_name_cn)">
                 添加子菜单
               </a-button>
               <a-button class="button-mini" size="small" @click="editMenuInfo({ menu_id })">编辑</a-button>
@@ -33,6 +33,9 @@
 }">
         <a-form-item label="父级菜单ID">
           <a-input v-model:value="menuInfo.parent_id" :disabled="true"></a-input>
+        </a-form-item>
+        <a-form-item label="父级菜单ID">
+          <a-input v-model:value="menuInfo.p_menu_name_cn" :disabled="true"></a-input>
         </a-form-item>
         <a-form-item label="菜单名称（中文）">
           <a-input v-model:value="menuInfo.menu_name_cn"></a-input>
@@ -249,6 +252,7 @@ export default {
      */
     const menuInfo = reactive({
       parent_id: "0",
+      p_menu_name_cn: "无",
       menu_name_cn: "",
       menu_name_en: "",
       elem: [],
@@ -323,9 +327,9 @@ export default {
     };
 
     //添加子菜单，只需要修改一下form表单的父级ID
-    const handleChildMenu = (val) => {
-      console.log(val);
-      menuInfo.parent_id = val;
+    const handleChildMenu = (val1, val2) => {
+      menuInfo.parent_id = val1;
+      menuInfo.p_menu_name_cn = val2;
     };
 
     /*************************************

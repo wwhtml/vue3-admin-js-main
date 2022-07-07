@@ -3,11 +3,11 @@ import { h } from "vue";
 export const routes = [
 
 
-  // {
-  //   path: "/",
-  //   redirect: "/home",
-  //   hidInMenu: true,
-  // },
+  {
+    path: "/",
+    redirect: "/Login",
+    hidInMenu: true,
+  },
   {
     path: "/login",  //router_path
     name: "Login",  //router_name
@@ -41,32 +41,41 @@ export const routes = [
     component: () => import("../views/Account/Forget.vue"),
   },
 
-
-
-
-
-
-
+  //中转路由
   {
-    path: "/home",
-    name: "Home",
+    path: "/adminIndex",
+    name: "AdminIndex",
+    hidInMenu: true,
     meta: {
-      title: "首页",
-      icon: "home",
+      title: "中转路由"
     },
-    component: () => import("../layout/BasicLayout.vue"),
-    children: [
-      {
-        path: "/home",
-        name: "Home",
-        meta: {
-          title: "首页",
-          icon: "home",
-        },
-        component: () => import("../views/Home/Home.vue"),
-      },
-    ],
+    component: () => import("../views/Account/Forget.vue"),
   },
+
+
+
+
+
+  // {
+  //   path: "/home",
+  //   name: "Home",
+  //   meta: {
+  //     title: "首页",
+  //     icon: "home",
+  //   },
+  //   component: () => import("../layout/BasicLayout.vue"),
+  //   children: [
+  //     {
+  //       path: "/home",
+  //       name: "Home",
+  //       meta: {
+  //         title: "首页",
+  //         icon: "home",
+  //       },
+  //       component: () => import("../views/Home/Home.vue"),
+  //     },
+  //   ],
+  // },
 
   // {
   //   path: "/adminIndex",

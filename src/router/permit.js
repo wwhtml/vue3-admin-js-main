@@ -27,11 +27,29 @@ Router.beforeEach((to, form, next) => {
         async_router.forEach((item) => {
           Router.addRoute(item)
         })
-        //next() 动态路由更新完成之后执行
-        next({ ...to, replace: true });
+        console.log(to.name)
+        console.log({ ...to })
+
+        //判断是否是中转路由   to.name 指的是路由的name属性，严格区分大小写的
+        if (to.name == "AdminIndex") {
+          //动态路由的第一项
+          const first_router = async_router[0]?.children[0] || async_router[0];
+          next({ ...first_router, replace: true });
+
+        } else {
+
+          //next() 动态路由更新完成之后执行
+          next({ ...to, replace: true });
+        }
+
       })
     } else {
-      next()
+      if (to.name === "Login") {
+        Router.go(-1)
+      } else {
+        next()
+
+      }
     }
   } else {
     if (whiteRouter.includes(to.name)) {
